@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI 체스</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>사람 vs AI 체스</h1>
+  <div id="chessboard"></div>
+  <div id="promotion-choice" class="hidden">
+    <p>프로모션할 기물을 선택하세요:</p>
+    <button data-piece="q">퀸</button>
+    <button data-piece="r">룩</button>
+    <button data-piece="b">비숍</button>
+    <button data-piece="n">나이트</button>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/1.0.0/chess.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
