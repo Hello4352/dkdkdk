@@ -2,33 +2,92 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>사람 vs AI 체스</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>체스판 확실하게 보이기</title>
+  <style>
+    /* 체스판 컨테이너 */
+    #board {
+      display: grid;
+      grid-template-columns: repeat(8, 70px);
+      grid-template-rows: repeat(8, 70px);
+      width: 560px;
+      height: 560px;
+      border: 3px solid #333;
+      margin: 30px auto;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      user-select: none;
+    }
+
+    /* 각 칸 */
+    .square {
+      width: 70px;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      border: 1px solid #555;
+      box-sizing: border-box;
+    }
+
+    /* 색 구분 */
+    .white {
+      background-color: #f0d9b5;
+    }
+    .black {
+      background-color: #b58863;
+    }
+
+    /* 마우스 오버 시 약간 색 변화 */
+    .square:hover {
+      filter: brightness(1.15);
+    }
+
+    /* 클릭시 테두리 강조 */
+    .selected {
+      outline: 3px solid #ff5722;
+      outline-offset: -3px;
+    }
+  </style>
 </head>
 <body>
-  <h1>사람 vs AI 체스 게임</h1>
-
-  <label for="skill">AI 난이도:</label>
-  <select id="skill">
-    <option value="0">0 (초보)</option>
-    <option value="5" selected>5 (중간)</option>
-    <option value="10">10 (상급)</option>
-    <option value="15">15 (전문가)</option>
-    <option value="20">20 (최강)</option>
-  </select>
+  <h1 style="text-align:center; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+    확실하게 보이는 체스판
+  </h1>
 
   <div id="board"></div>
 
-  <div id="promotion-modal" class="hidden">
-    <p>프로모션할 기물을 선택하세요:</p>
-    <div id="promotion-options"></div>
-  </div>
+  <script>
+    const boardEl = document.getElementById("board");
 
-  <!-- chess.js: 룰 적용용 -->
-  <script src="https://cdn.jsdelivr.net/npm/chess.js@1.0.0/chess.min.js"></script>
-  <!-- stockfish.js: AI 엔진 -->
-  <script src="https://cdn.jsdelivr.net/gh/niklasf/stockfish.wasm/stockfish.min.js"></script>
-  <script src="script.js"></script>
+    for (let row = 0; row < 8; row++) {
+      for (let col = 0; col < 8; col++) {
+        const square = document.createElement("div");
+        square.classList.add("square");
+
+        // 칸 색 구분: (row + col)이 짝수면 흰색, 홀수면 검정색
+        if ((row + col) % 2 === 0) {
+          square.classList.add("white");
+        } else {
+          square.classList.add("black");
+        }
+
+        // 칸 좌표를 데이터 속성으로 저장 (예: a8, b8, ...)
+        const file = String.fromCharCode(97 + col); // a~h
+        const rank = 8 - row;
+        square.dataset.square = file + rank;
+
+        // 예) 클릭시 선택 표시 (기본 UI용)
+        square.addEventListener("click", () => {
+          document.querySelectorAll(".selected").forEach(el => el.classList.remove("selected"));
+          square.classList.add("selected");
+          console.log("선택된 칸:", square.dataset.square);
+        });
+
+        boardEl.appendChild(square);
+      }
+    }
+  </script>
 </body>
 </html>
